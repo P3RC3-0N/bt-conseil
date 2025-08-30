@@ -1,7 +1,9 @@
 import Header from '@/components/layout/Header';
 import HeroSection from '@/components/ui/HeroSection';
 import Section from '@/components/ui/Section';
-import { ServiceSection } from '@/components/ui/SectionCard';
+import { ServiceSection, RealisationSection } from '@/components/ui/SectionCard';
+import { ContactBandeau } from '@/components/ui/Bandeau';
+import Footer from '@/components/layout/Footer';
 import Typography, { Heading, Body } from '@/components/ui/Typographie';
 
 export default function Home() {
@@ -42,6 +44,43 @@ export default function Home() {
         description: 'Rédaction et dépôt des dossiers de consultation, analyse des offres, établissement des marchés. Prise en charge complète du volet administratif et réglementaire.'
       },
       id: 'gestion-administrative'
+    }
+  ];
+
+  // Données des réalisations pour la section
+  const realisationsData = [
+    {
+      type: 'realisation' as const,
+      data: {
+        photo: '/images/acceuil/realisation1.jpg',
+        title: 'Rénovation énergétique d\'un immeuble',
+        description: 'Modernisation thermique et isolation complète d\'un bâtiment de 20 logements.',
+        year: '2023',
+        location: 'Pavillons-sous-Bois'
+      },
+      id: 'renovation-immeuble'
+    },
+    {
+      type: 'realisation' as const,
+      data: {
+        photo: '/images/acceuil/realisation2.jpg',
+        title: 'Construction maison individuelle',
+        description: 'Conception et suivi d\'un projet clé en main pour un particulier.',
+        year: '2022',
+        location: 'Montreuil'
+      },
+      id: 'maison-individuelle'
+    },
+    {
+      type: 'realisation' as const,
+      data: {
+        photo: '/images/acceuil/realisation3.jpg',
+        title: 'Réhabilitation local commercial en bureaux',
+        description: 'Aménagement intérieur et mise aux normes pour transformation en bureaux modernes.',
+        year: '2024',
+        location: 'Aubervilliers'
+      },
+      id: 'rehabilitation-bureaux'
     }
   ];
 
@@ -88,42 +127,20 @@ export default function Home() {
         buttonHref="/services"
       />
 
-      {/* Contenu principal temporaire pour tester le scroll */}
-      <main className="container mx-auto px-4 py-16 bg-gray-50">
-        <div className="text-center space-y-8">
-          <Heading level={2} color="primary" align="center">
-            Pourquoi nous choisir ?
-          </Heading>
-          
-          <Body size={1} color="secondary" align="center" className="max-w-2xl mx-auto">
-            Plus de 30 ans d'expérience au service de vos projets.
-          </Body>
+      {/* Section Réalisations */}
+      <RealisationSection
+        title="Nos Réalisations"
+        cards={realisationsData}
+        backgroundColor="gray"
+        buttonLabel="Découvrir toutes nos réalisations"
+        buttonHref="/realisations"
+      />
 
-          {/* Sections temporaires pour voir le scroll */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-16">
-            <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm">
-              <Heading level={4} color="accent">Expertise</Heading>
-              <Body size={2} color="muted">
-                Plus de 30 ans d'expérience en maîtrise d'œuvre.
-              </Body>
-            </div>
-            
-            <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm">
-              <Heading level={4} color="accent">Proximité</Heading>
-              <Body size={2} color="muted">
-                Un accompagnement personnalisé et de proximité.
-              </Body>
-            </div>
-            
-            <div className="p-6 bg-white border border-slate-200 rounded-lg shadow-sm">
-              <Heading level={4} color="accent">Confiance</Heading>
-              <Body size={2} color="muted">
-                Transparence et qualité dans tous nos projets.
-              </Body>
-            </div>
-          </div>
-        </div>
-      </main>
+      {/* Bandeau Contact */}
+      <ContactBandeau />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

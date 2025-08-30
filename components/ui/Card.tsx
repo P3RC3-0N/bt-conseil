@@ -213,13 +213,15 @@ const Card: React.FC<CardProps> = ({
         const teamData = data as TeamCardData;
         return (
           <>
-            <div className="aspect-square w-full mb-4 overflow-hidden rounded-lg">
-              <Image
-                src={teamData.photo}
-                alt={teamData.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <div 
+              className="aspect-square w-full mb-4 rounded-lg"
+              style={{
+                backgroundImage: `url(${teamData.photo})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+                backgroundRepeat: 'no-repeat'
+              }}
+            />
             <div className="space-y-2 flex-grow flex flex-col">
               <Heading level={3} className="text-lg font-semibold">
                 {teamData.name}
@@ -238,7 +240,8 @@ const Card: React.FC<CardProps> = ({
         const serviceData = data as ServiceCardData;
         return (
           <>
-            <div className="w-16 h-16 mb-4 flex items-center justify-center bg-blue-50 rounded-lg">
+            {/* Icône - hauteur fixe en haut */}
+            <div className="w-16 h-16 mb-4 flex items-center justify-center bg-blue-50 rounded-lg flex-shrink-0">
               <Image
                 src={serviceData.icon}
                 alt={serviceData.title}
@@ -247,13 +250,21 @@ const Card: React.FC<CardProps> = ({
                 className="w-10 h-10"
               />
             </div>
-            <div className="space-y-3 flex-grow flex flex-col">
-              <Heading level={3} className="text-lg font-semibold">
-                {serviceData.title}
-              </Heading>
-              <Body size={2} color="secondary" className="flex-grow">
-                {serviceData.description}
-              </Body>
+            
+            <div className="flex-grow flex flex-col justify-between space-y-4">
+              {/* Zone titre - hauteur minimale pour 3 lignes */}
+              <div className="min-h-[1.5rem] lg:min-h-[5.625rem] xl:min-h-[3.75rem] flex items-start">
+                <Heading level={3} className="text-lg font-semibold leading-tight">
+                  {serviceData.title}
+                </Heading>
+              </div>
+              
+              {/* Zone description - prend l'espace restant */}
+              <div className="flex-grow">
+                <Body size={2} color="secondary" className="leading-relaxed">
+                  {serviceData.description}
+                </Body>
+              </div>
             </div>
           </>
         );
@@ -262,18 +273,34 @@ const Card: React.FC<CardProps> = ({
         const realisationData = data as RealisationCardData;
         return (
           <>
-            <div className="aspect-[4/3] w-full mb-4 overflow-hidden rounded-lg">
-              <Image
-                src={realisationData.photo}
-                alt={realisationData.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="space-y-2 flex-grow flex flex-col">
-              <Heading level={3} className="text-lg font-semibold">
-                {realisationData.title}
-              </Heading>
-              <div className="flex items-center gap-4 text-sm text-gray-500">
+            {/* Image - hauteur fixe à 1/3 de la carte */}
+            <div 
+              className="h-48 w-full mb-4 rounded-lg flex-shrink-0"
+              style={{
+                backgroundImage: `url(${realisationData.photo})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+                backgroundRepeat: 'no-repeat'
+              }}
+            />
+            
+            <div className="flex-grow flex flex-col justify-between space-y-2">
+              {/* Zone titre - hauteur minimale pour 3 lignes */}
+              <div className="min-h-[1.5rem] lg:min-h-[5.625rem] xl:min-h-[3.75rem] flex items-start">
+                <Heading level={3} className="text-lg font-semibold leading-tight">
+                  {realisationData.title}
+                </Heading>
+              </div>
+              
+              {/* Zone description - prend l'espace restant */}
+              <div className="flex-grow">
+                <Body size={2} color="secondary" className="leading-relaxed">
+                  {realisationData.description}
+                </Body>
+              </div>
+              
+              {/* Zone date/lieu - hauteur fixe en bas */}
+              <div className="h-8 flex items-center gap-4 text-sm text-gray-500 mt-auto">
                 <div className="flex items-center gap-1">
                   <Calendar className="w-4 h-4" />
                   {realisationData.year}
@@ -285,9 +312,6 @@ const Card: React.FC<CardProps> = ({
                   </div>
                 )}
               </div>
-              <Body size={2} color="secondary" className="flex-grow">
-                {realisationData.description}
-              </Body>
             </div>
           </>
         );
@@ -363,13 +387,15 @@ const Card: React.FC<CardProps> = ({
         return (
           <>
             {genericData.image && (
-              <div className="aspect-[4/3] w-full mb-4 overflow-hidden rounded-lg">
-                <Image
-                  src={genericData.image}
-                  alt={genericData.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              <div 
+                className="aspect-[4/3] w-full mb-4 rounded-lg"
+                style={{
+                  backgroundImage: `url(${genericData.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center center',
+                  backgroundRepeat: 'no-repeat'
+                }}
+              />
             )}
             <div className="space-y-3 flex-grow flex flex-col">
               <Heading level={3} className="text-lg font-semibold">
