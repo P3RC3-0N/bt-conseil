@@ -184,7 +184,7 @@ const devisDatawithExcerpts = devisData.map(card => {
       <Header 
         variant="admin"
         navigation={adminNavigation}
-        ctaButton={{ label: "Voir le site", href: "/" }}
+        ctaButton={{ label: "Deconnexion", href: "/" }}
       />
 
       {/* Section Guide - Intro avec image floutée */}
