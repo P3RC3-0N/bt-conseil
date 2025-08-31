@@ -16,7 +16,7 @@ interface ImageProps {
   
   // Props spécifiques à notre design system
   blur?: boolean;
-  blurIntensity?: 'sm' | 'md' | 'lg';
+  blurIntensity?: 'xs' | 'sm' | 'md' | 'lg';
   overlay?: boolean;
   overlayColor?: 'dark' | 'light' | 'blue';
   overlayOpacity?: 'light' | 'medium' | 'heavy';
@@ -65,6 +65,7 @@ const Image: React.FC<ImageProps> = ({
 }) => {
   // Classes pour le blur
   const blurStyles = {
+    xs: 'blur-xs',
     sm: 'blur-sm',
     md: 'blur-md', 
     lg: 'blur-lg'

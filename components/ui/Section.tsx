@@ -65,13 +65,13 @@ const Section: React.FC<SectionProps> = ({
           "lg:gap-x-16"
         )}>
           
-          {/* Image */}
+          {/* Image - TOUJOURS en dessous du texte en responsive */}
           <div className={cn(
             "lg:col-span-1",
-            // Ordre responsive basé sur la position
-            isImageLeft 
-              ? "order-1 lg:order-1"  // Image à gauche : reste au-dessus en mobile
-              : "order-2 lg:order-2"  // Image à droite : passe en dessous en mobile
+            // Sur mobile : toujours order-2 (en dessous)
+            // Sur desktop : position selon le layout
+            "order-2",
+            isImageLeft ? "lg:order-1" : "lg:order-2"
           )}>
             <div className="relative">
               <Image
@@ -86,14 +86,13 @@ const Section: React.FC<SectionProps> = ({
             </div>
           </div>
 
-          {/* Contenu */}
+          {/* Contenu - TOUJOURS en haut du texte en responsive */}
           <div className={cn(
             "lg:col-span-2",
-            // Ordre responsive basé sur la position
-            isImageLeft 
-              ? "order-2 lg:order-2"  // Image à gauche : texte après en mobile
-              : "order-1 lg:order-1"  // Image à droite : texte avant en mobile
-            ,
+            // Sur mobile : toujours order-1 (au-dessus)
+            // Sur desktop : position selon le layout
+            "order-1",
+            isImageLeft ? "lg:order-2" : "lg:order-1",
             "space-y-4 sm:space-y-6"
           )}>
             
@@ -136,14 +135,5 @@ const Section: React.FC<SectionProps> = ({
     </section>
   );
 };
-
-// Composants spécialisés pour faciliter l'usage
-export const ImageLeftSection: React.FC<Omit<SectionProps, 'layout'>> = (props) => (
-  <Section layout="image-left" {...props} />
-);
-
-export const ImageRightSection: React.FC<Omit<SectionProps, 'layout'>> = (props) => (
-  <Section layout="image-right" {...props} />
-);
 
 export default Section;

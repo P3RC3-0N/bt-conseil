@@ -52,7 +52,7 @@ export default function Home() {
     {
       type: 'realisation' as const,
       data: {
-        photo: '/images/acceuil/realisation1.jpg',
+        photo: '/images/realisations/realisation1.jpg',
         title: 'Rénovation énergétique d\'un immeuble',
         description: 'Modernisation thermique et isolation complète d\'un bâtiment de 20 logements.',
         year: '2023',
@@ -63,7 +63,7 @@ export default function Home() {
     {
       type: 'realisation' as const,
       data: {
-        photo: '/images/acceuil/realisation2.jpg',
+        photo: '/images/realisations/realisation2.jpg',
         title: 'Construction maison individuelle',
         description: 'Conception et suivi d\'un projet clé en main pour un particulier.',
         year: '2022',
@@ -74,7 +74,7 @@ export default function Home() {
     {
       type: 'realisation' as const,
       data: {
-        photo: '/images/acceuil/realisation3.jpg',
+        photo: '/images/realisations/realisation3.jpg',
         title: 'Réhabilitation local commercial en bureaux',
         description: 'Aménagement intérieur et mise aux normes pour transformation en bureaux modernes.',
         year: '2024',
@@ -98,7 +98,7 @@ export default function Home() {
         variant="hero"
         title="BT Conseil"
         subtitle="Ensemble pour réussir"
-        backgroundImage="/images/acceuil/hero1.jpg"
+        backgroundImage="/images/acceuil/hero4.jpg"
         imageAlt="BT Conseil - Maîtrise d'œuvre"
         ctaButton={{ 
           label: "En savoir plus", 

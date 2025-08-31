@@ -55,7 +55,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   // Configuration selon le variant
   const variantConfig = {
     hero: {
-      // Page d'accueil - slogan + bouton
       titleVariant: 'h1' as const,
       titleColor: 'white' as const,
       titleWeight: 'bold' as const,
@@ -66,7 +65,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       showButton: true
     },
     intro: {
-      // Pages services/réalisations - titre simple
       titleVariant: 'h2' as const,
       titleColor: 'white' as const,
       titleWeight: 'semibold' as const,
@@ -77,7 +75,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       showButton: false
     },
     guide: {
-      // Pages admin - texte explicatif sur image floutée
       titleVariant: 'h3' as const,
       titleColor: 'primary' as const,
       titleWeight: 'semibold' as const,
@@ -93,119 +90,198 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
   return (
     <section className={cn("relative w-full", sectionHeight, className)}>
-      {/* Image de background */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={backgroundImage}
-          alt={imageAlt}
-          fill
-          priority
-          blur={config.blur}
-          blurIntensity="md"
-          overlay
-          overlayColor={variant === 'guide' ? 'light' : 'dark'}
-          overlayOpacity={config.overlayIntensity}
-        />
-      </div>
-
-      {/* Contenu en overlay */}
-      <div className={cn(
-  "relative z-20 h-[100%] w-full flex px-4 sm:px-6 lg:px-8",
-  alignStyles[textAlign]
-)}>
-  <div className="container h-[100%] mx-auto max-w-4xl flex flex-col justify-between">
-    
-    {/* Section supérieure : Titre + Slogan */}
-    <div className="space-y-2 sm:space-y-4 lg:space-y-6 m-[1%]  sm:m-[2%] lg:m-[5%]">
-      {/* Titre principal */}
-      {title && (
-        <Heading
-          level={config.titleVariant === 'h1' ? 1 : config.titleVariant === 'h2' ? 2 : 3}
-          color={config.titleColor}
-          weight={config.titleWeight}
-          align={textAlign}
-          className={cn(
-            "drop-shadow-lg",
-            variant === 'hero' && "text-4xl sm:text-5xl lg:text-6xl xl:text-7xl",
-            variant === 'intro' && "text-3xl sm:text-4xl lg:text-5xl",
-            variant === 'guide' && "text-2xl sm:text-3xl lg:text-4xl"
-          )}
-        >
-          {title}
-        </Heading>
-      )}
-
-      {/* Sous-titre */}
-      {subtitle && (
-        <Typography
-          variant={config.subtitleVariant}
-          color={config.subtitleColor}
-          align={textAlign}
-          className={cn(
-            variant !== 'guide' && "drop-shadow-md",
-            variant === 'hero' && "text-lg sm:text-xl lg:text-2xl",
-            variant === 'intro' && "text-base sm:text-lg lg:text-xl",
-            variant === 'guide' && "text-sm sm:text-base lg:text-lg"
-          )}
-        >
-          {subtitle}
-        </Typography>
-      )}
-
-      {/* Description (principalement pour variant "guide") */}
-      {description && (
-        <Body
-          size={1}
-          color={variant === 'guide' ? 'secondary' : 'white'}
-          align={textAlign}
-          className={cn(
-            "max-w-2xl",
-            textAlign === 'center' && "mx-auto",
-            textAlign === 'right' && "ml-auto",
-            variant !== 'guide' && "drop-shadow-md"
-          )}
-        >
-          {description}
-        </Body>
-      )}
-    </div>
-
-    {/* Espace central vide - sera automatiquement créé par justify-between */}
-    
-    {/* Section inférieure : Bouton CTA */}
-    {config.showButton && ctaButton && (
-      <div className={cn(
-        "mt-auto", // Pour s'assurer qu'il reste en bas
-        textAlign === 'center' && "flex justify-center",
-        textAlign === 'right' && "flex justify-end"
-      )}>
-        <Button
-          href={ctaButton.href}
-          variant="primary"
-          size="md"
-          className="px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg shadow-lg hover:shadow-xl m-[1%] sm:m-[2%] lg:m-[5%]"
-        >
-          {ctaButton.label}
-        </Button>
-      </div>
-    )}
+  {/* Image de background */}
+  <div className="absolute inset-0 z-0">
+    <Image
+      src={backgroundImage}
+      alt={imageAlt}
+      fill
+      priority
+      width={300}
+      height={400}
+      blur={variant === 'guide' ? true : config.blur}
+      blurIntensity={variant === 'guide' ? "xs" : "md"}  // flou beaucoup plus léger
+      overlay
+      overlayColor={variant === 'guide' ? 'light' : 'dark'}
+      overlayOpacity={config.overlayIntensity}
+    />
   </div>
-</div>
-    </section>
+
+  {/* Contenu en overlay */}
+  {variant === 'intro' ? (
+    // Layout spécial pour intro
+    <div
+      className={cn(
+        "relative z-20 h-full w-full flex flex-col px-4 sm:px-6 lg:px-8",
+        alignStyles[textAlign]
+      )}
+    >
+      <div className="container h-full mx-auto max-w-4xl flex flex-col">
+        {/* Titre en haut */}
+        {title && (
+          <div className="pt-6 sm:pt-8 lg:pt-12 flex-shrink-0">
+            <Heading
+              level={2}
+              color="white"
+              weight="semibold"
+              align={textAlign}
+              className="text-3xl sm:text-4xl lg:text-5xl drop-shadow-lg"
+            >
+              {title}
+            </Heading>
+          </div>
+        )}
+
+        {/* Sous-titre centré */}
+        {subtitle && (
+          <div className="flex-grow flex items-center justify-center">
+            <Typography
+              variant="h5"
+              color="white"
+              align={textAlign}
+              className="text-base sm:text-lg lg:text-xl drop-shadow-md"
+            >
+              {subtitle}
+            </Typography>
+          </div>
+        )}
+      </div>
+    </div>
+  ) : variant === 'guide' ? (
+    // Nouveau layout pour guide
+    <div
+      className={cn(
+        "relative z-20 h-full w-full flex flex-col px-4 sm:px-6 lg:px-8",
+        alignStyles[textAlign]
+      )}
+    >
+      <div className="h-full w-[100%] mx-auto flex flex-col">
+        {/* Titre en haut */}
+        {title && (
+          <div className="pt-6 sm:pt-8 lg:pt-12 flex-shrink-0">
+            <Heading
+              level={2}
+              color={config.titleColor}
+              weight={config.titleWeight}
+              align={textAlign}
+              className="text-2xl sm:text-3xl lg:text-4xl drop-shadow-lg"
+            >
+              {title}
+            </Heading>
+          </div>
+        )}
+
+        {/* Sous-titre centré */}
+        {subtitle && (
+          <div className="flex-grow h-[100%] lg:h-auto flex translate-x-[0%] lg:translate-x-[100%] items-end justify-center">
+            <Typography
+              variant={config.subtitleVariant}
+              color={config.subtitleColor}
+              align={textAlign}
+              className="text-base sm:text-lg lg:text-xl drop-shadow-md"
+            >
+              {subtitle}
+            </Typography>
+          </div>
+        )}
+
+        {/* Description centrée avec glassmorphisme + effet 3D */}
+        {description && (
+          <div className="flex-grow h-[33%] lg:h-auto translate-x-[100%] lg:translate-x-[0%] flex items-start justify-center">
+  <div className="relative flex w-[50%] px-6 py-4 rounded-2xl backdrop-blur-md bg-white/20 shadow-lg 
+                  border-t border-l border-white/60 
+                  border-b border-r border-white/20">
+    <Body
+      size={2}
+      color={config.subtitleColor}
+      align="left"
+      className="text-left text-base"
+    >
+      <span dangerouslySetInnerHTML={{ __html: description }} />
+    </Body>
+
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  ) : (
+    // Layout normal pour hero
+    <div
+      className={cn(
+        "relative z-20 h-full w-full flex px-4 sm:px-6 lg:px-8",
+        alignStyles[textAlign]
+      )}
+    >
+      <div className="container h-full mx-auto max-w-4xl flex flex-col justify-between">
+        {/* Section supérieure */}
+        <div className="space-y-2 sm:space-y-4 lg:space-y-6 pt-4 sm:pt-6 lg:pt-8">
+          {title && (
+            <Heading
+              level={config.titleVariant === 'h1' ? 1 : config.titleVariant === 'h2' ? 2 : 3}
+              color={config.titleColor}
+              weight={config.titleWeight}
+              align={textAlign}
+              className="drop-shadow-lg text-4xl sm:text-5xl lg:text-6xl xl:text-7xl"
+            >
+              {title}
+            </Heading>
+          )}
+
+          {subtitle && (
+            <Typography
+              variant={config.subtitleVariant}
+              color={config.subtitleColor}
+              align={textAlign}
+              className="drop-shadow-md text-lg sm:text-xl lg:text-2xl"
+            >
+              {subtitle}
+            </Typography>
+          )}
+
+          {description && (
+            <Body
+              size={1}
+              color="white"
+              align={textAlign}
+              className={cn(
+                "max-w-2xl",
+                textAlign === 'center' && "mx-auto",
+                textAlign === 'right' && "ml-auto",
+                "drop-shadow-md"
+              )}
+            >
+              {description}
+            </Body>
+          )}
+        </div>
+
+        {/* CTA */}
+        {config.showButton && ctaButton && (
+          <div
+            className={cn(
+              "pb-4 sm:pb-6 lg:pb-8",
+              textAlign === 'center' && "flex justify-center",
+              textAlign === 'right' && "flex justify-end"
+            )}
+          >
+            <Button
+              href={ctaButton.href}
+              variant="primary"
+              size="md"
+              className="px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg shadow-lg hover:shadow-xl"
+            >
+              {ctaButton.label}
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  )}
+</section>
+
+
   );
 };
-
-// Composants spécialisés pour faciliter l'usage
-export const HeroHome: React.FC<Omit<HeroSectionProps, 'variant'>> = (props) => (
-  <HeroSection variant="hero" {...props} />
-);
-
-export const IntroSection: React.FC<Omit<HeroSectionProps, 'variant' | 'ctaButton'>> = (props) => (
-  <HeroSection variant="intro" {...props} />
-);
-
-export const GuideSection: React.FC<Omit<HeroSectionProps, 'variant' | 'ctaButton'>> = (props) => (
-  <HeroSection variant="guide" {...props} />
-);
 
 export default HeroSection;
