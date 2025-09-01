@@ -1,3 +1,4 @@
+import { supabase } from '@/lib/supabase';
 import Header from '@/components/layout/Header';
 import HeroSection from '@/components/ui/HeroSection';
 import Section from '@/components/ui/Section';
@@ -6,8 +7,8 @@ import { ContactBandeau } from '@/components/ui/Bandeau';
 import Footer from '@/components/layout/Footer';
 import Typography, { Heading, Body } from '@/components/ui/Typographie';
 
-export default function Home() {
-  // Navigation pour le header user
+export default async function Home() {
+  // Navigation
   const userNavigation = [
     { label: "Accueil", href: "/" },
     { label: "À propos", href: "/a-propos" },
@@ -16,73 +17,47 @@ export default function Home() {
     { label: "Contact", href: "/contact" }
   ];
 
-  // Données des services pour la section
-  const servicesData = [
-    {
-      type: 'service' as const,
-      data: {
-        icon: '/icons/technical-study.svg',
-        title: 'Études techniques & diagnostics',
-        description: 'Étude de faisabilité, relevés 3D, diagnostic structurel, et optimisation des coûts techniques. Répond aux contraintes du bâti, optimisation budgétaire, recommandations techniques.'
-      },
-      id: 'etudes-techniques'
-    },
-    {
-      type: 'service' as const,
-      data: {
-        icon: '/icons/project-management.svg',
-        title: 'Suivi de chantier & coordination',
-        description: 'Planification, coordination des corps d\'état, rédaction des comptes-rendus et respect des délais. Une coordination fluide, suivi rigoureux, interlocuteur unique.'
-      },
-      id: 'suivi-chantier'
-    },
-    {
-      type: 'service' as const,
-      data: {
-        icon: '/icons/administrative.svg',
-        title: 'Gestion administrative & appels d\'offres',
-        description: 'Rédaction et dépôt des dossiers de consultation, analyse des offres, établissement des marchés. Prise en charge complète du volet administratif et réglementaire.'
-      },
-      id: 'gestion-administrative'
-    }
-  ];
+  // --- FETCH SERVICES ---
+  const { data: services, error: servicesError } = await supabase
+    .from('services')
+    .select('*')
+    .eq('is_active', true)
+    .order('display_order', { ascending: true });
 
-  // Données des réalisations pour la section
-  const realisationsData = [
-    {
-      type: 'realisation' as const,
-      data: {
-        photo: '/images/realisations/realisation1.jpg',
-        title: 'Rénovation énergétique d\'un immeuble',
-        description: 'Modernisation thermique et isolation complète d\'un bâtiment de 20 logements.',
-        year: '2023',
-        location: 'Pavillons-sous-Bois'
-      },
-      id: 'renovation-immeuble'
+  if (servicesError) console.error(servicesError);
+
+  const servicesData = services?.map(service => ({
+    type: 'service' as const,
+    data: {
+      icon: service.icon_url || '/icons/default-service.svg',
+      title: service.title,
+      description: service.description
     },
-    {
-      type: 'realisation' as const,
-      data: {
-        photo: '/images/realisations/realisation2.jpg',
-        title: 'Construction maison individuelle',
-        description: 'Conception et suivi d\'un projet clé en main pour un particulier.',
-        year: '2022',
-        location: 'Montreuil'
-      },
-      id: 'maison-individuelle'
+    id: service.id
+  })) || [];
+
+  // --- FETCH REALISATIONS ---
+  const { data: realisations, error: realisationsError } = await supabase
+    .from('realisations')
+    .select('*')
+    .eq('is_active', true)
+    .order('display_order', { ascending: true });
+
+  if (realisationsError) console.error(realisationsError);
+
+  const realisationsData = realisations?.map(item => ({
+    type: 'realisation' as const,
+    data: {
+      photo: item.photo_url || '/images/default-realisation.jpg',
+      title: item.title,
+      description: item.description,
+      year: item.year,
+      location: item.location
     },
-    {
-      type: 'realisation' as const,
-      data: {
-        photo: '/images/realisations/realisation3.jpg',
-        title: 'Réhabilitation local commercial en bureaux',
-        description: 'Aménagement intérieur et mise aux normes pour transformation en bureaux modernes.',
-        year: '2024',
-        location: 'Aubervilliers'
-      },
-      id: 'rehabilitation-bureaux'
-    }
-  ];
+    id: item.id
+  })) || [];
+
+  // Données des services pour la section
 
   return (
     <div className="min-h-screen bg-white">

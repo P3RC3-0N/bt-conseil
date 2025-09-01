@@ -86,6 +86,12 @@ interface CardProps extends BaseCardProps {
   data: CardData;
 }
 
+const formatDate = (isoDate: string) => {
+  if (!isoDate) return '';
+  return new Date(isoDate).toLocaleDateString('fr-FR'); // "25/08/2025"
+};
+
+
 // Hook pour gérer les modales "Voir plus"
 const useCardModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -363,8 +369,9 @@ const Card: React.FC<CardProps> = ({
 
                 <div className="flex flex-col items-end min-w-[50px] pl-2">
                   <Body size={2} color="secondary">
-                    {messageData.date}
-                  </Body>
+  {formatDate(messageData.date)}
+</Body>
+
                 </div>
               </div>
 
@@ -401,8 +408,9 @@ const Card: React.FC<CardProps> = ({
 
                 <div className="flex flex-col items-end min-w-[50px] pl-2">
                   <Body size={2} color="secondary">
-                    {devisData.date}
-                  </Body>
+  {formatDate(devisData.date)}
+</Body>
+
 
                 </div>
               </div>
@@ -489,7 +497,8 @@ const Card: React.FC<CardProps> = ({
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
-                {data.date}
+{formatDate(data.date)}
+
               </div>
             </div>
           </div>

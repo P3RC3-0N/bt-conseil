@@ -1,11 +1,13 @@
+import { supabase } from '@/lib/supabase';
 import Header from '@/components/layout/Header';
 import HeroSection from '@/components/ui/HeroSection';
 import Section from '@/components/ui/Section';
 import { UserCarousel } from '@/components/ui/Carousel';
 import { ContactBandeau } from '@/components/ui/Bandeau';
 import Footer from '@/components/layout/Footer';
+import TeamData from '@/components/data/TeamData';
 
-export default function AboutPage() {
+export default async function AboutPage() {
   // Navigation pour le header user
   const userNavigation = [
     { label: "Accueil", href: "/" },
@@ -15,53 +17,8 @@ export default function AboutPage() {
     { label: "Contact", href: "/contact" }
   ];
 
-  // Données de l'équipe avec descriptions complètes (sauvegardées pour plus tard)
-  const teamData = [
-    {
-      type: 'team' as const,
-      data: {
-        photo: '/images/a-propos/profil5.jpg',
-        name: 'Julien Lefevre',
-        position: 'Directeur & Fondateur',
-        description: 'Fondateur de BT Conseil, Julien supervise chaque projet avec rigueur et passion, assurant la qualité et le respect des délais.',
-        // TODO: Ajouter le champ description dans le composant TeamCard plus tard
-      },
-      id: 'julien-lefevre'
-    },
-    {
-      type: 'team' as const,
-      data: {
-        photo: '/images/a-propos/profil2.jpg',
-        name: 'Claire Martin',
-        position: 'Assistante de direction',
-        description: 'Claire organise et coordonne l\'ensemble des activités administratives, facilitant la communication et la logistique des projets.',
-        // TODO: Description à intégrer dans TeamCard
-      },
-      id: 'claire-martin'
-    },
-    {
-      type: 'team' as const,
-      data: {
-        photo: '/images/a-propos/profil3.jpg',
-        name: 'Jean-Baptiste De Quatre-barbe',
-        position: 'Comptable',
-        description: 'Sophie assure la gestion financière et le suivi budgétaire de chaque projet avec précision et fiabilité.',
-        // TODO: Description à intégrer dans TeamCard
-      },
-      id: 'sophie-dubois'
-    },
-    {
-      type: 'team' as const,
-      data: {
-        photo: '/images/a-propos/profil4.jpg',
-        name: 'Antoine Moreau',
-        position: 'Architecte',
-        description: 'Spécialiste de la conception architecturale, Antoine transforme vos idées en plans détaillés et veille à la cohérence esthétique des projets.',
-        // TODO: Description à intégrer dans TeamCard
-      },
-      id: 'antoine-moreau'
-    }
-  ];
+  const teamData = await TeamData();
+
 
   return (
     <div className="min-h-screen bg-white">

@@ -1,10 +1,11 @@
+import { supabase } from '@/lib/supabase';
 import Header from '@/components/layout/Header';
 import HeroSection from '@/components/ui/HeroSection';
 import Section from '@/components/ui/Section';
 import { ContactBandeau } from '@/components/ui/Bandeau';
 import Footer from '@/components/layout/Footer';
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
   // Navigation pour le header user
   const userNavigation = [
     { label: "Accueil", href: "/" },
@@ -13,6 +14,24 @@ export default function ServicesPage() {
     { label: "Réalisations", href: "/realisations" },
     { label: "Contact", href: "/contact" }
   ];
+
+  const { data: services, error: servicesError } = await supabase
+      .from('services')
+      .select('*')
+      .eq('is_active', true)
+      .order('display_order', { ascending: true });
+  
+    if (servicesError) console.error(servicesError);
+  
+    const servicesData = services?.map(service => ({
+      type: 'service' as const,
+      data: {
+        icon: service.icon_url || '/icons/default-service.svg',
+        title: service.title,
+        description: service.description
+      },
+      id: service.id
+    })) || [];
 
   return (
     <div className="min-h-screen bg-white">
@@ -34,43 +53,20 @@ export default function ServicesPage() {
         
       />
 
-      {/* Service 1 : Études techniques - Image à droite */}
-      <Section
-  layout="image-right"
-  title="Études techniques & diagnostics"
-  description="Nous réalisons des études de faisabilité complètes, relevés 3D et diagnostics structurels pour anticiper les contraintes techniques de votre projet. Nos analyses permettent d’optimiser les coûts, tout en vous proposant des recommandations précises et adaptées afin de garantir une approche efficace et durable."
-  image={{
-    src: "/images/services/etudes-techniques.jpg",
-    alt: "Études techniques et diagnostics - BT Conseil"
-  }}
-  backgroundColor="white"
-/>
-
-
-      {/* Service 2 : Suivi de chantier - Image à gauche */}
-      <Section
-  layout="image-left"
-  title="Suivi de chantier & coordination"
-  description="Un interlocuteur unique pour une gestion fluide de votre chantier. Nous assurons la planification, la coordination des différents corps d’état et le suivi rigoureux du planning. Grâce à des comptes rendus réguliers et une organisation maîtrisée, nous garantissons le respect des délais et du budget initial."
-  image={{
-    src: "/images/services/suivi-chantier.jpg",
-    alt: "Suivi de chantier et coordination - BT Conseil"
-  }}
-  backgroundColor="gray"
-/>
-
-
-      {/* Service 3 : Gestion administrative - Image à droite */}
-      <Section
-  layout="image-right"
-  title="Gestion administrative & appels d'offres"
-  description="Nous prenons en charge l’ensemble du volet administratif et réglementaire de votre projet. Rédaction et dépôt des dossiers de consultation, analyse des offres reçues et établissement des marchés : notre expertise vous assure une gestion simplifiée et conforme, tout en vous faisant gagner un temps précieux."
-  image={{
-    src: "/images/services/gestion-administrative.jpg",
-    alt: "Gestion administrative et appels d'offres - BT Conseil"
-  }}
-  backgroundColor="white"
-/>
+      {/* Sections dynamiques pour chaque service */}
+      {services?.map((service, index) => (
+        <Section
+          key={service.id}
+          layout={index % 2 === 0 ? 'image-right' : 'image-left'} // alterne droite/gauche
+          title={service.title}
+          description={service.description}
+          image={{
+            src: service.photo_url || '/images/services/default.jpg',
+            alt: service.title
+          }}
+          backgroundColor={index % 2 === 0 ? 'white' : 'gray'} // alterne couleurs
+        />
+      ))}
 
 
       {/* Bandeau Contact */}

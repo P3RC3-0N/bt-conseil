@@ -219,8 +219,10 @@ const SectionCards: React.FC<SectionCardsProps> = ({
               <div 
                 key={card.id || index}
                 className={`
-                  ${index >= 1 ? 'hidden lg:block' : ''} 
-                  ${index >= 2 ? 'hidden md:block' : ''}
+                  ${index == 0 ? 'block' : ''}
+                  ${index == 1 ? 'hidden md:block' : ''} 
+                  ${index == 2 ? 'hidden lg:block' : ''} 
+                  ${index > 2 ? 'hidden' : ''}
                 `}
               >
                 {renderCard(card, index)}

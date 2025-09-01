@@ -43,7 +43,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   className
 }) => {
   // Hauteur fixe md pour toutes les sections hero
-  const sectionHeight = 'h-[200px] sm:h-[33vh] lg:h-[45vh]';
+  const sectionHeight = 'h-[200px] sm:h-[33vh] md:h-[50vh]';
 
   // Classes pour l'alignement du texte
   const alignStyles = {
@@ -151,7 +151,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     // Nouveau layout pour guide
     <div
       className={cn(
-        "relative z-20 h-full w-full flex flex-col px-4 sm:px-6 lg:px-8",
+        "relative z-20 h-full flex flex-col px-4 sm:px-6 lg:px-8",
         alignStyles[textAlign]
       )}
     >
@@ -188,7 +188,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Description centrée avec glassmorphisme + effet 3D */}
         {description && (
           <div className="flex-grow h-[33%] lg:h-auto translate-x-[100%] lg:translate-x-[0%] flex items-start justify-center">
-  <div className="relative flex w-[50%] px-6 py-4 rounded-2xl backdrop-blur-md bg-white/20 shadow-lg 
+  <div className="relative flex w-[66%] px-6 py-4 rounded-2xl backdrop-blur-md bg-white/20 shadow-lg 
                   border-t border-l border-white/60 
                   border-b border-r border-white/20">
     <Body
